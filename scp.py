@@ -36,7 +36,7 @@ class SprinklerControlPanelApp:
         self.zonesButton = []
         self.zonesZone = []
 
-        self.zonesLabel.append(tk.Label(root, text="Zone 1:", padx=10))
+        self.zonesLabel.append(tk.Label(root, text="Zone 1", padx=10))
         self.zonesLabel[gridRow].grid(row=gridRow, column=0)
         self.zonesIndicator.append(tk.Label(root, bg=self.offColor, width=2, height=1))
         self.zonesIndicator[gridRow].grid(row=gridRow, column=1)
@@ -45,7 +45,7 @@ class SprinklerControlPanelApp:
         self.zonesZone.append(Zone())
 
         gridRow += 1
-        self.zonesLabel.append(tk.Label(root, text="Zone 2:", padx=10))
+        self.zonesLabel.append(tk.Label(root, text="Zone 2", padx=10))
         self.zonesLabel[gridRow].grid(row=gridRow, column=0)
         self.zonesIndicator.append(tk.Label(root, bg=self.offColor, width=2, height=1))
         self.zonesIndicator[gridRow].grid(row=gridRow, column=1)
@@ -54,7 +54,7 @@ class SprinklerControlPanelApp:
         self.zonesZone.append(Zone())
 
         gridRow += 1
-        self.zonesLabel.append(tk.Label(root, text="Zone 3:", padx=10))
+        self.zonesLabel.append(tk.Label(root, text="Zone 3", padx=10))
         self.zonesLabel[gridRow].grid(row=gridRow, column=0)
         self.zonesIndicator.append(tk.Label(root, bg=self.offColor, width=2, height=1))
         self.zonesIndicator[gridRow].grid(row=gridRow, column=1)
@@ -63,7 +63,7 @@ class SprinklerControlPanelApp:
         self.zonesZone.append(Zone())
 
         gridRow += 1
-        self.zonesLabel.append(tk.Label(root, text="Zone 4:", padx=10))
+        self.zonesLabel.append(tk.Label(root, text="Zone 4", padx=10))
         self.zonesLabel[gridRow].grid(row=gridRow, column=0)
         self.zonesIndicator.append(tk.Label(root, bg=self.offColor, width=2, height=1))
         self.zonesIndicator[gridRow].grid(row=gridRow, column=1)
@@ -72,7 +72,7 @@ class SprinklerControlPanelApp:
         self.zonesZone.append(Zone())
 
         gridRow += 1
-        self.zonesLabel.append(tk.Label(root, text="Zone 5:", padx=10))
+        self.zonesLabel.append(tk.Label(root, text="Zone 5", padx=10))
         self.zonesLabel[gridRow].grid(row=gridRow, column=0)
         self.zonesIndicator.append(tk.Label(root, bg=self.offColor, width=2, height=1))
         self.zonesIndicator[gridRow].grid(row=gridRow, column=1)
