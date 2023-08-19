@@ -46,7 +46,9 @@ class SprinklerControlPanelApp:
     def __init__(self, root):
         self.offColor = 'Gray32'
         self.root = root
-        self.root.title("Sprinkler Control Panel")        
+        self.root.title("Sprinkler Control Panel")      
+        self.nextZone = 0    # current active zone
+        self.numZones = 5       # total number of zones 
 
         gridRow = 0
         self.zones = []
@@ -56,7 +58,7 @@ class SprinklerControlPanelApp:
         self.zones[gridRow].label.grid(row=gridRow, column=0)
         self.zones[gridRow].indicator = tk.Label(root, width=2, height=1)
         self.zones[gridRow].indicator.grid(row=gridRow, column=1)
-        self.zones[gridRow].button = tk.Button(root, text="Toggle Z1", command=lambda: self.toggle_status(1))
+        self.zones[gridRow].button = tk.Button(root, text="Toggle Z1", command=lambda: self.toggle_status(0))
         self.zones[gridRow].button.grid(row=gridRow, column=2)
         self.zones[gridRow].setOff()
         self.zones[gridRow].setTimeOn(1)
@@ -67,7 +69,7 @@ class SprinklerControlPanelApp:
         self.zones[gridRow].label.grid(row=gridRow, column=0)
         self.zones[gridRow].indicator = tk.Label(root, bg=self.offColor, width=2, height=1)
         self.zones[gridRow].indicator.grid(row=gridRow, column=1)
-        self.zones[gridRow].button = tk.Button(root, text="Toggle Z2", command=lambda: self.toggle_status(2))
+        self.zones[gridRow].button = tk.Button(root, text="Toggle Z2", command=lambda: self.toggle_status(1))
         self.zones[gridRow].button.grid(row=gridRow, column=2)
         self.zones[gridRow].setOff()
         self.zones[gridRow].setTimeOn(1)
@@ -78,7 +80,7 @@ class SprinklerControlPanelApp:
         self.zones[gridRow].label.grid(row=gridRow, column=0)
         self.zones[gridRow].indicator = tk.Label(root, bg=self.offColor, width=2, height=1)
         self.zones[gridRow].indicator.grid(row=gridRow, column=1)
-        self.zones[gridRow].button = tk.Button(root, text="Toggle Z3", command=lambda: self.toggle_status(3))
+        self.zones[gridRow].button = tk.Button(root, text="Toggle Z3", command=lambda: self.toggle_status(2))
         self.zones[gridRow].button.grid(row=gridRow, column=2)
         self.zones[gridRow].setOff()
         self.zones[gridRow].setTimeOn(1)
@@ -89,7 +91,7 @@ class SprinklerControlPanelApp:
         self.zones[gridRow].label.grid(row=gridRow, column=0)
         self.zones[gridRow].indicator = tk.Label(root, bg=self.offColor, width=2, height=1)
         self.zones[gridRow].indicator.grid(row=gridRow, column=1)
-        self.zones[gridRow].button = tk.Button(root, text="Toggle Z4", command=lambda: self.toggle_status(4))
+        self.zones[gridRow].button = tk.Button(root, text="Toggle Z4", command=lambda: self.toggle_status(3))
         self.zones[gridRow].button.grid(row=gridRow, column=2)
         self.zones[gridRow].setOff()
         self.zones[gridRow].setTimeOn(1)
@@ -100,7 +102,7 @@ class SprinklerControlPanelApp:
         self.zones[gridRow].label.grid(row=gridRow, column=0)
         self.zones[gridRow].indicator = tk.Label(root, bg=self.offColor, width=2, height=1)
         self.zones[gridRow].indicator.grid(row=gridRow, column=1)
-        self.zones[gridRow].button = tk.Button(root, text="Toggle Z5", command=lambda: self.toggle_status(5))
+        self.zones[gridRow].button = tk.Button(root, text="Toggle Z5", command=lambda: self.toggle_status(4))
         self.zones[gridRow].button.grid(row=gridRow, column=2)
         self.zones[gridRow].setOff()
         self.zones[gridRow].setTimeOn(1)
@@ -119,67 +121,59 @@ class SprinklerControlPanelApp:
         self.time_label = tk.Label(root, font=('helvetica', 12), background='gray', foreground='white')
         self.time_label.grid(row=gridRow, column=8)
 
-        # elapsed time for controlling the zone on/off times in a cycle
-        self.elapsedTime = 0
+        # Cycle button
+        cycleButton = tk.Button(root, text="Cycle", command= self.startCycle)
+        cycleButton.grid(row=gridRow, column=1)
 
-    def update_time(self):
+        # elapsed time for controlling the zone on/off times in a cycle
+        # self.elapsedTime = 0
+
+    def startCycle(self):
+        self.nextZone = 0
+        self.update_time()
+
+    def update_clock(self):
+        # print("tick")
         current_time = strftime('%H:%M:%S %p')
         self.time_label.config(text=current_time)
-        self.elapsedTime += 1
-        # print(f"ET: {self.elapsedTime}  Z1: {self.zones[0].timeOn()}  Z2: {self.zones[1].timeOn()}  Z3: {self.zones[2].timeOn()}  Z4: {self.zones[3].timeOn()}  Z5: {self.zones[4].timeOn()}")
+        self.time_label.after(1000, self.update_clock)  # Update every 1000ms (1 second)
 
-        timeZone1 = self.zones[0].timeOn()
-        timeZone2 = timeZone1 + self.zones[1].timeOn()
-        timeZone3 = timeZone2 + self.zones[2].timeOn()
-        timeZone4 = timeZone3 + self.zones[3].timeOn()
-        timeZone5 = timeZone4 + self.zones[4].timeOn()
-        
-        if self.elapsedTime >= 10 + timeZone5:
-            self.zones[4].setOff()
-            self.elapsedTime = 0
-            # print("zone 5 off")
-        elif self.elapsedTime >= 10 + timeZone4:
-            self.zones[3].setOff()
-            self.zones[4].setOn()
-            # print("zone 5")
-        elif self.elapsedTime >= 10 + timeZone3:
-            self.zones[2].setOff()
-            self.zones[3].setOn()
-            # print("zone 4")
-        elif self.elapsedTime >= 10 + timeZone2:
-            self.zones[1].setOff()
-            self.zones[2].setOn()
-            # print("zone 3")
-        elif self.elapsedTime >= 10 + timeZone1:
-            self.zones[0].setOff()
-            self.zones[1].setOn()
-            # print("zone 2")
-        elif self.elapsedTime >= 10:
-            self.zones[0].setOn()
-            # print("zone 1")
-            
-        self.time_label.after(100, self.update_time)  # Update every 1000ms (1 second)
+    def update_time(self):
+        # print("examine timers")
+        self.allZonesOff()
+
+        if self.nextZone >=0 and self.nextZone < self.numZones:
+            sleepTime = self.zones[self.nextZone].timeOn()
+            print(f"Start Zone {self.nextZone} for {sleepTime} x 10")
+            self.zones[self.nextZone].setOn()
+            self.nextZone += 1
+
+            self.time_label.after(10 * sleepTime, self.update_time)  # Sleep for length of this zone        
+
+    def allZonesOff(self):
+        for i in range(self.numZones):
+            self.zones[i].setOff()
 
     def temp_slider_changed(self, value):
         self.temp_slider_value_label.config(text=f"Temp: {value} F")
         v = int(value)
-        self.zones[0].setTimeOn(v)
-        self.zones[1].setTimeOn(v)
-        self.zones[2].setTimeOn(v)
-        self.zones[3].setTimeOn(v)
-        self.zones[4].setTimeOn(v)
+
+        # update all zones
+        for i in range(self.numZones):
+            self.zones[i].setTimeOn(v)
+        # self.zones[2].setTimeOn(v+100)
 
     def set_status(self, zone, status):
             if status:
-                self.zones[zone-1].indicator.configure(bg="red")
-                self.zones[zone-1].setOn()
+                self.zones[zone].indicator.configure(bg="red")
+                self.zones[zone].setOn()
             else:
-                self.zones[zone-1].indicator.configure(bg=self.offColor)
-                self.zones[zone-1].setOff()
+                self.zones[zone].indicator.configure(bg=self.offColor)
+                self.zones[zone].setOff()
     
     def toggle_status(self, zone):
-        self.zones[zone-1].toggle()
-        self.set_status(zone, self.zones[zone-1].isOn())
+        self.zones[zone].toggle()
+        self.set_status(zone, self.zones[zone].isOn())
 
 # Create a tkinter window
 root = tk.Tk()
@@ -189,7 +183,8 @@ root.geometry("700x300")
 app = SprinklerControlPanelApp(root)
 
 # Start the clock update process
-app.update_time()
+app.update_clock()
+# app.update_time()
 
 # Run the tkinter event loop
 root.mainloop()
