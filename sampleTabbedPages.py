@@ -55,7 +55,7 @@ class PageRun(Page):
 
         l6Frame = ttk.LabelFrame(self, text="Zone 6")
         l6Frame.pack(side="left", fill="x", expand=True)
-        entry6 = tk.Entry(l6Frame, width=5)
+        entry6 = tk.Spinbox(l6Frame, width=5)
         entry6.pack(side="top", **pad)
         button6 = tk.Button(l6Frame, text="button6")
         button6.pack(side="top", **pad)
@@ -67,8 +67,54 @@ class PageRun(Page):
 class PageProgram(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
-        label = tk.Label(self, text="Program Page")
-        label.pack(side="top", fill="both", expand=True)
+        # label = tk.Label(self, text="Program Page")
+        # label.pack(side="top", expand=True)
+
+        pad = {'padx': 5, 'pady': 5}
+
+        l1Frame = ttk.LabelFrame(self, text="Zone 1")
+        # l1Frame.grid(column=0, row=0, padx=20, pady=20)
+        l1Frame.pack(side="left", fill="x", expand=True)
+        entry1 = tk.Spinbox(l1Frame, width=5)
+        entry1.pack(side="top", **pad)
+        button1 = tk.Button(l1Frame, text="button1")
+        button1.pack(side="top", **pad)
+
+        l2Frame = ttk.LabelFrame(self, text="Zone 2")
+        # l2Frame.grid(column=1, row=0, padx=20, pady=20)
+        l2Frame.pack(side="left", fill="x", expand=True)
+        entry2 = tk.Spinbox(l2Frame, width=5)
+        entry2.pack(side="top", **pad)
+        button2 = tk.Button(l2Frame, text="button2")
+        button2.pack(side="top", **pad)
+
+        l3Frame = ttk.LabelFrame(self, text="Zone 3")
+        l3Frame.pack(side="left", fill="x", expand=True)
+        entry3 = tk.Spinbox(l3Frame, width=5)
+        entry3.pack(side="top", **pad)
+        button3 = tk.Button(l3Frame, text="button3")
+        button3.pack(side="top", **pad)
+
+        l4Frame = ttk.LabelFrame(self, text="Zone 4")
+        l4Frame.pack(side="left", fill="x", expand=True)
+        entry4 = tk.Spinbox(l4Frame, width=5)
+        entry4.pack(side="top", **pad)
+        button4 = tk.Button(l4Frame, text="button4")
+        button4.pack(side="top", **pad)
+
+        l5Frame = ttk.LabelFrame(self, text="Zone 5")
+        l5Frame.pack(side="left", fill="x", expand=True)
+        entry5 = tk.Spinbox(l5Frame, width=5)
+        entry5.pack(side="top", **pad)
+        button5 = tk.Button(l5Frame, text="button5")
+        button5.pack(side="top", **pad)
+
+        l6Frame = ttk.LabelFrame(self, text="Zone 6")
+        l6Frame.pack(side="left", fill="x", expand=True)
+        entry6 = tk.Spinbox(l6Frame, width=5)
+        entry6.pack(side="top", **pad)
+        button6 = tk.Button(l6Frame, text="button6")
+        button6.pack(side="top", **pad)
 
 
 class PageTest(Page):
