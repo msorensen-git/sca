@@ -1,6 +1,7 @@
 import tkinter as tk
 from time import strftime
 
+import scaLed as led
 import scaZone as zone
 
 
@@ -12,6 +13,8 @@ class SprinklerControlPanelApp:
         self.root.title("Sprinkler Control Panel")
         self.nextZone = 0    # current active zone
         self.numZones = 5       # total number of zones
+
+        self.hatLed = led.Led()
 
         gridRow = 0
         self.zones = []
@@ -111,16 +114,19 @@ class SprinklerControlPanelApp:
         # elapsed time for controlling the zone on/off times in a cycle
         # self.elapsedTime = 0
 
+    # Start a cycle of the zones
     def startCycle(self):
         self.nextZone = 0
         self.update_time()
 
+    # update the clock every second
     def update_clock(self):
         # print("tick")
         current_time = strftime('%H:%M:%S %p')
         self.time_label.config(text=current_time)
         self.time_label.after(1000, self.update_clock)  # Update every second
 
+    # progress through each of the zones
     def update_time(self):
         # print("examine timers")
         self.allZonesOff()
@@ -128,16 +134,19 @@ class SprinklerControlPanelApp:
         if self.nextZone >= 0 and self.nextZone < self.numZones:
             sleepTime = self.zones[self.nextZone].timeOn()
             print(f"Start Zone {self.nextZone} for {sleepTime} x 10")
-            self.zones[self.nextZone].setOn()
+            # self.zones[self.nextZone].setOn()
+            self.set_status(self.nextZone, True)
             self.nextZone += 1
 
             # Sleep for length of this zone
             self.time_label.after(10 * sleepTime, self.update_time)
 
+    # turn off all zones
     def allZonesOff(self):
         for i in range(self.numZones):
-            self.zones[i].setOff()
+            self.set_status(i, False)
 
+    # handle slider update
     def temp_slider_changed(self, value):
         self.temp_slider_value_label.config(text=f"Temp: {value} F")
         v = int(value)
@@ -147,14 +156,15 @@ class SprinklerControlPanelApp:
             self.zones[i].setTimeOn(v)
         # self.zones[2].setTimeOn(v+100)
 
+    # set one zone on or off
     def set_status(self, zone, status):
         if status:
-            self.zones[zone].indicator.configure(bg="red")
             self.zones[zone].setOn()
+            self.hatLed.on(zone+1)
         else:
-            self.zones[zone].indicator.configure(bg=self.offColor)
             self.zones[zone].setOff()
+            self.hatLed.off(zone+1)
 
+    # toggle status of one zone
     def toggle_status(self, zone):
-        self.zones[zone].toggle()
-        self.set_status(zone, self.zones[zone].isOn())
+        self.set_status(zone, not self.zones[zone].isOn())

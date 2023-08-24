@@ -14,7 +14,7 @@ class Zone:
 
     def indicator(self):
         return self.indicator
-
+ 
     def button(self):
         return self.button
 
@@ -26,13 +26,6 @@ class Zone:
         self.status = False
         self.indicator.configure(bg='Gray32')
 
-    def toggle(self):
-        # self.status = not self.status
-        if self.status:
-            self.setOff()
-        else:
-            self.setOn()
-
     def isOn(self):
         return self.status
 
@@ -41,3 +34,9 @@ class Zone:
 
     def setTimeOn(self, value):
         self._timeOn = value
+
+    def inrement(self, value):
+        return value+1
+
+    def decrement(self, value):
+        return value+1
