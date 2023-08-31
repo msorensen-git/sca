@@ -153,26 +153,16 @@ class MainView(tk.Frame):
         p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         # tab buttons in place
-        b1 = tk.Button(tabButtonframe, text="Run", command=p1.show)
-        b2 = tk.Button(tabButtonframe, text="Program", command=p2.show)
-        b3 = tk.Button(tabButtonframe, text="Test", command=p3.show)
-        b4 = tk.Button(tabButtonframe, text="Settings", command=p4.show)
-
-        b1.pack(side="left")
-        b2.pack(side="left")
-        b3.pack(side="left")
-        b4.pack(side="left")
+        b1 = tk.Button(tabButtonframe, text="Run", command=p1.show).pack(side ="left")
+        b2 = tk.Button(tabButtonframe, text="Program", command=p2.show).pack(side ="left")
+        b3 = tk.Button(tabButtonframe, text="Test", command=p3.show).pack(side ="left")
+        b4 = tk.Button(tabButtonframe, text="Settings", command=p4.show).pack(side ="left")
 
         # control buttons in place
-        bx = tk.Button(controlButtonframe, text="Exit", command=self.exitApp)
-        bx.pack(side="right")
-        ba = tk.Button(controlButtonframe, text="All Off", command=self.allOff)
-        ba.pack(side="right")
+        tk.Button(controlButtonframe, text="Exit", command=self.quit).pack(side="right")
+        tk.Button(controlButtonframe, text="All Off", command=self.allOff).pack(side="right")
 
         p1.show()
-
-    def exitApp(self):
-        return
 
     def allOff(self):
         return
@@ -181,6 +171,7 @@ class MainView(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     main = MainView(root)
+    root.title("Tabbed Pages App")
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("700x400")
     root.mainloop()
