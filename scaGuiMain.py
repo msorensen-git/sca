@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from time import strftime
 
 
 class Page(tk.Frame):
@@ -131,11 +132,13 @@ class PageSettings(Page):
         label.pack(side="top", fill="both", expand=True)
 
 
-class ScaGui(tk.Frame):
+# layout using grid
+class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
-        # p1 = PageRun(self)
-        # p2 = PageProgram(self)
+
+        p1 = PageRun(self)
+        p2 = PageProgram(self)
         p3 = PageTest(self)
         p4 = PageSettings(self)
 
@@ -147,29 +150,63 @@ class ScaGui(tk.Frame):
         controlButtonframe.pack(side="top", fill="both", expand=False)
 
         # pages in place
-        # p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        # p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p1.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
+        p2.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p3.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         p4.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         # tab buttons in place
-        # b1 = tk.Button(tabButtonframe, text="Run", command=p1.show).pack(side ="left")
-        # b2 = tk.Button(tabButtonframe, text="Program", command=p2.show).pack(side ="left")
+        b1 = tk.Button(tabButtonframe, text="Run", command=p1.show).pack(side ="left")
+        b2 = tk.Button(tabButtonframe, text="Program", command=p2.show).pack(side ="left")
         b3 = tk.Button(tabButtonframe, text="Test", command=p3.show).pack(side ="left")
         b4 = tk.Button(tabButtonframe, text="Settings", command=p4.show).pack(side ="left")
 
         # control buttons in place
         tk.Button(controlButtonframe, text="Exit", command=self.quit).pack(side="right")
         tk.Button(controlButtonframe, text="All Off", command=self.allOff).pack(side="right")
+        self.time_label = tk.Label(controlButtonframe, font=('helvetica', 12), background='gray', foreground='white')
+        self.time_label.pack(side="right")
 
-        # p1.show()
-        p3.show()
+        # Cycle button
+        self.cycleButton = tk.Button(controlButtonframe, text="Cycle", command=self.startCycle)
+        self.cycleButton.pack(side="right")
+
+        p1.show()
+        # p3.show()
 
     def allOff(self):
         return
     
+    # Start a cycle of the zones
+    def startCycle(self):
+        self.nextZone = 0
+        self.update_time()
+
+    ### Problem: this method can't find time_label
     def update_clock(self):
         # print("tick")
-        # current_time = strftime('%H:%M:%S %p')
-        # self.time_label.config(text=current_time)
+        current_time = strftime('%H:%M:%S %p')
+        self.time_label.config(text=current_time)
+    
         self.time_label.after(1000, self.update_clock)  # Update every second
+
+    # progress through each of the zones
+    def update_time(self):
+        # print("examine timers")
+        self.allZonesOff()
+
+        if self.nextZone >= 0 and self.nextZone < self.numZones:
+            sleepTime = self.zones[self.nextZone].timeOn()
+            print(f"Start Zone {self.nextZone} for {sleepTime} x 10")
+            # self.zones[self.nextZone].setOn()
+            self.set_status(self.nextZone, True)
+            self.nextZone += 1
+
+            # Sleep for length of this zone
+            self.time_label.after(10 * sleepTime, self.update_time)
+
+    # turn off all zones
+    def allZonesOff(self):
+        for i in range(self.numZones):
+            self.set_status(i, False)
+
