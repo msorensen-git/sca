@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 from time import strftime
 
+import scaLed as led
+import scaZone as zone
+
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -16,53 +19,182 @@ class PageRun(Page):
         Page.__init__(self, *args, **kwargs)
 
         pad = {'padx': 5, 'pady': 5}
+        self.offColor = 'Gray32'
+        self.nextZone = 0    # current active zone
+        self.numZones = 5       # total number of zones
 
-        l1Frame = ttk.LabelFrame(self, text="Zone 1")
-        # l1Frame.grid(column=0, row=0, padx=20, pady=20)
-        l1Frame.pack(side="left", fill="x", expand=True)
-        entry1 = tk.Entry(l1Frame, width=5)
-        entry1.pack(side="top", **pad)
-        button1 = tk.Button(l1Frame, text="button1")
-        button1.pack(side="top", **pad)
+        self.hatLed = led.Led()
 
-        l2Frame = ttk.LabelFrame(self, text="Zone 2")
-        # l2Frame.grid(column=1, row=0, padx=20, pady=20)
-        l2Frame.pack(side="left", fill="x", expand=True)
-        entry2 = tk.Entry(l2Frame, width=5)
-        entry2.pack(side="top", **pad)
-        button2 = tk.Button(l2Frame, text="button2")
-        button2.pack(side="top", **pad)
+        if True:
+            gridRow = 0
+            self.zones = []
 
-        l3Frame = ttk.LabelFrame(self, text="Zone 3")
-        l3Frame.pack(side="left", fill="x", expand=True)
-        entry3 = tk.Entry(l3Frame, width=5)
-        entry3.pack(side="top", **pad)
-        button3 = tk.Button(l3Frame, text="button3")
-        button3.pack(side="top", **pad)
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 1")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 1", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z1",
+                                                   command=lambda:
+                                                   self.toggle_status(0))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
 
-        l4Frame = ttk.LabelFrame(self, text="Zone 4")
-        l4Frame.pack(side="left", fill="x", expand=True)
-        entry4 = tk.Entry(l4Frame, width=5)
-        entry4.pack(side="top", **pad)
-        button4 = tk.Button(l4Frame, text="button4")
-        button4.pack(side="top", **pad)
+            gridRow += 1
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 2")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 2", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z2",
+                                                  command=lambda:
+                                                  self.toggle_status(1))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
 
-        l5Frame = ttk.LabelFrame(self, text="Zone 5")
-        l5Frame.pack(side="left", fill="x", expand=True)
-        entry5 = tk.Entry(l5Frame, width=5)
-        entry5.pack(side="top", **pad)
-        button5 = tk.Button(l5Frame, text="button5")
-        button5.pack(side="top", **pad)
+            gridRow += 1
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 3")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 2", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z3",
+                                                  command=lambda:
+                                                  self.toggle_status(2))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
 
-        l6Frame = ttk.LabelFrame(self, text="Zone 6")
-        l6Frame.pack(side="left", fill="x", expand=True)
-        entry6 = tk.Spinbox(l6Frame, width=5)
-        entry6.pack(side="top", **pad)
-        button6 = tk.Button(l6Frame, text="button6")
-        button6.pack(side="top", **pad)
+            gridRow += 1
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 4")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 4", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z4",
+                                                  command=lambda:
+                                                  self.toggle_status(3))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
 
-        # label = tk.Label(self, text="This is page 1")
-        # label.pack(side="top", fill="both", expand=True)
+            gridRow += 1
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 5")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 5", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z5",
+                                                  command=lambda:
+                                                  self.toggle_status(4))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
+
+            gridRow += 1
+            self.zones.append(zone.Zone())
+            localZone = self.zones[gridRow]
+            localZone.frame = ttk.LabelFrame(self, text="Zone 6")
+            localZone.frame.pack(side="left", fill="x", expand=True)
+            # localZone.label = tk.Label(localZone.frame, text="Zone 6", padx=10)
+            # localZone.label.grid(row=gridRow, column=0)
+            localZone.indicator = tk.Label(localZone.frame, bg=self.offColor, width=2, height=1)
+            localZone.indicator.grid(row=gridRow, column=1)
+            localZone.button = tk.Button(localZone.frame, text="Z6",
+                                                  command=lambda:
+                                                  self.toggle_status(5))
+            localZone.button.grid(row=gridRow, column=2)
+            localZone.setOff()
+            localZone.setTimeOn(1)
+
+        else:
+            l1Frame = ttk.LabelFrame(self, text="Zone 1")
+            l1Frame.pack(side="left", fill="x", expand=True)
+            entry1 = tk.Entry(l1Frame, width=5)
+            entry1.pack(side="top", **pad)
+            button1 = tk.Button(l1Frame, text="button1")
+            button1.pack(side="top", **pad)
+
+            l2Frame = ttk.LabelFrame(self, text="Zone 2")
+            l2Frame.pack(side="left", fill="x", expand=True)
+            entry2 = tk.Entry(l2Frame, width=5)
+            entry2.pack(side="top", **pad)
+            button2 = tk.Button(l2Frame, text="button2")
+            button2.pack(side="top", **pad)
+
+            l3Frame = ttk.LabelFrame(self, text="Zone 3")
+            l3Frame.pack(side="left", fill="x", expand=True)
+            entry3 = tk.Entry(l3Frame, width=5)
+            entry3.pack(side="top", **pad)
+            button3 = tk.Button(l3Frame, text="button3")
+            button3.pack(side="top", **pad)
+
+            l4Frame = ttk.LabelFrame(self, text="Zone 4")
+            l4Frame.pack(side="left", fill="x", expand=True)
+            entry4 = tk.Entry(l4Frame, width=5)
+            entry4.pack(side="top", **pad)
+            button4 = tk.Button(l4Frame, text="button4")
+            button4.pack(side="top", **pad)
+
+            l5Frame = ttk.LabelFrame(self, text="Zone 5")
+            l5Frame.pack(side="left", fill="x", expand=True)
+            entry5 = tk.Entry(l5Frame, width=5)
+            entry5.pack(side="top", **pad)
+            button5 = tk.Button(l5Frame, text="button5")
+            button5.pack(side="top", **pad)
+
+            l6Frame = ttk.LabelFrame(self, text="Zone 6")
+            l6Frame.pack(side="left", fill="x", expand=True)
+            entry6 = tk.Spinbox(l6Frame, width=5)
+            entry6.pack(side="top", **pad)
+            button6 = tk.Button(l6Frame, text="button6")
+            button6.pack(side="top", **pad)
+
+    # turn off all zones
+    def allZonesOff(self):
+        for i in range(self.numZones):
+            self.set_status(i, False)
+
+    # handle slider update
+    def temp_slider_changed(self, value):
+        self.temp_slider_value_label.config(text=f"Temp: {value} F")
+        v = int(value)
+
+        # update all zones
+        for i in range(self.numZones):
+            self.zones[i].setTimeOn(v)
+        # self.zones[2].setTimeOn(v+100)
+
+    # set one zone on or off
+    def set_status(self, zone, status):
+        if status:
+            self.zones[zone].setOn()
+            self.hatLed.on(zone+1)
+        else:
+            self.zones[zone].setOff()
+            self.hatLed.off(zone+1)
+
+    # toggle status of one zone
+    def toggle_status(self, zone):
+        self.set_status(zone, not self.zones[zone].isOn())
+
 
 
 class PageProgram(Page):
@@ -207,6 +339,6 @@ class MainView(tk.Frame):
 
     # turn off all zones
     def allZonesOff(self):
-        for i in range(self.numZones):
+        for i in range( self.p1.numZones):
             self.set_status(i, False)
 
