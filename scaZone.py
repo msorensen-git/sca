@@ -1,5 +1,3 @@
-import tkinter as tk
-
 
 class Zone:
     def __init__(self):
@@ -14,7 +12,7 @@ class Zone:
 
     def indicator(self):
         return self.indicator
- 
+
     def button(self):
         return self.button
 

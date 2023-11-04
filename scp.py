@@ -1,10 +1,11 @@
 import tkinter as tk
+# import scaZone
 
-import scaZone
 # simple view
-import scaGui #as gui
+import scaGui  # as gui
+
 # tabbed view
-import scaGuiMain #as gui
+import scaGuiMain  # as gui
 
 if __name__ == "__main__":
     # Create a tkinter window
@@ -12,10 +13,10 @@ if __name__ == "__main__":
     root.title("Sprintkler Control App")
 
     # if True:
-    if False :
+    if False:
         # Create the main app class
         app = scaGui.SprinklerControlPanelApp(root)
-  
+
         # Start the clock update process
         app.update_clock()
         # app.update_time()
@@ -23,7 +24,7 @@ if __name__ == "__main__":
         main = scaGuiMain.MainView(root)
         main.pack(side="top", fill="both", expand=True)
         main.update_clock()
-    
+
     root.wm_geometry("700x400")
 
     # Run the tkinter event loop

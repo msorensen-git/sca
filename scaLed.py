@@ -1,5 +1,5 @@
 from gpiozero import LED
-from time import sleep
+# from time import sleep
 
 
 class Led():
