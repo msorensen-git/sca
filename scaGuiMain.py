@@ -122,38 +122,18 @@ class PageRun(Page):
         localZone.setOff()
         localZone.setTimeOn(1)
 
-        # Sliders
-        # gridRow += 1
-        # self.temp_slider = tk.Scale(self,
-        #                            # from_=0, to=100,
-        #                            # orient="horizontal",
-        #                            # command=self.temp_slider_changed)
-        # self.temp_slider.grid(row=gridRow, column=2)
-
-        # self.temp_slider_value_label = tk.Label(self, text="Temp z F")
-        # ... self.temp_slider_value_label.grid(row=gridRow, column=3)
-        # self.temp_slider_value_label.grid(row=gridRow, column=1)
-        # self.temp_slider.set(1)     # start at value 1
-
 
 class PageProgram(Page):
-    entry0 = None
-    # entry1 = None
-    # entry2 = None
-    # entry3 = None
-    # entry4 = None
-    # entry5 = None
 
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
-        # label = tk.Label(self, text="Program Page")
-        # label.pack(side="top", expand=True)
 
         pad = {'padx': 5, 'pady': 5}
 
-        self.spinVar1 = tk.StringVar()
+        # Spinnter for zone 1
+        self.spinVar1 = tk.DoubleVar(
+            value=MainView.zones[0].timeOn())  # initial value
         l1Frame = ttk.LabelFrame(self, text="Zone 1")
-        # l1Frame.grid(column=0, row=0, padx=20, pady=20)
         l1Frame.pack(side="left", fill="x", expand=True)
         entry1 = tk.Spinbox(l1Frame, width=5,
                             from_=0, to=30,
@@ -164,9 +144,9 @@ class PageProgram(Page):
                             command=MainView.toggle_status0)
         button1.pack(side="top", **pad)
 
-        self.spinVar2 = tk.StringVar()
+        self.spinVar2 = tk.DoubleVar(
+            value=MainView.zones[1].timeOn())
         l2Frame = ttk.LabelFrame(self, text="Zone 2")
-        # l2Frame.grid(column=1, row=0, padx=20, pady=20)
         l2Frame.pack(side="left", fill="x", expand=True)
         entry2 = tk.Spinbox(l2Frame, width=5,
                             from_=0, to=30,
@@ -177,7 +157,8 @@ class PageProgram(Page):
                             command=MainView.toggle_status1)
         button2.pack(side="top", **pad)
 
-        self.spinVar3 = tk.StringVar()
+        self.spinVar3 = tk.DoubleVar(
+            value=MainView.zones[2].timeOn())
         l3Frame = tk.LabelFrame(self, text="Zone 3")
         l3Frame.pack(side="left", fill="x", expand=True)
         entry3 = tk.Spinbox(l3Frame, width=5,
@@ -189,7 +170,8 @@ class PageProgram(Page):
                             command=MainView.toggle_status2)
         button3.pack(side="top", **pad)
 
-        self.spinVar4 = tk.StringVar()
+        self.spinVar4 = tk.DoubleVar(
+            value=MainView.zones[3].timeOn())
         l4Frame = ttk.LabelFrame(self, text="Zone 4")
         l4Frame.pack(side="left", fill="x", expand=True)
         entry4 = tk.Spinbox(l4Frame, width=5,
@@ -201,7 +183,8 @@ class PageProgram(Page):
                             command=MainView.toggle_status3)
         button4.pack(side="top", **pad)
 
-        self.spinVar5 = tk.StringVar()
+        self.spinVar5 = tk.DoubleVar(
+            value=MainView.zones[4].timeOn())
         l5Frame = ttk.LabelFrame(self, text="Zone 5")
         l5Frame.pack(side="left", fill="x", expand=True)
         entry5 = tk.Spinbox(l5Frame, width=5,
@@ -213,7 +196,8 @@ class PageProgram(Page):
                             command=MainView.toggle_status4)
         button5.pack(side="top", **pad)
 
-        self.spinVar6 = tk.StringVar()
+        self.spinVar6 = tk.DoubleVar(
+            value=MainView.zones[5].timeOn())
         l6Frame = ttk.LabelFrame(self, text="Zone 6")
         l6Frame.pack(side="left", fill="x", expand=True)
         entry6 = tk.Spinbox(l6Frame, width=5,
@@ -242,7 +226,7 @@ class PageProgram(Page):
         MainView.zones[3].setTimeOn(int(lval))
 
     def spin5(self):
-        lval = self.spinVar4.get()
+        lval = self.spinVar5.get()
         MainView.zones[4].setTimeOn(int(lval))
 
     def spin6(self):
@@ -271,13 +255,6 @@ class MainView(tk.Frame):
     nextZone = 0    # current active zone
     numZones = 6    # total number of zones
     hatLed = led.Led()
-
-    cValue0 = 3
-    cValue1 = 3
-    cValue2 = 3
-    cValue3 = 3
-    cValue4 = 3
-    cValue5 = 3
 
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
@@ -312,7 +289,6 @@ class MainView(tk.Frame):
                   command=self.p4.show).pack(side="left")
 
         # Sliders
-        # gridRow += 1
         self.temp_slider = tk.Scale(controlButtonframe,
                                     from_=0, to=100,
                                     orient="horizontal",
@@ -321,7 +297,6 @@ class MainView(tk.Frame):
 
         self.temp_slider_value_label = tk.Label(
             controlButtonframe, text="Temp z F")
-        # ... self.temp_slider_value_label.grid(row=gridRow, column=3)
         self.temp_slider_value_label.pack(side="top", fill="x", expand=False)
         self.temp_slider.set(1)     # start at value 1s
 
@@ -361,8 +336,8 @@ class MainView(tk.Frame):
 
         if MainView.nextZone >= 0 and MainView.nextZone < MainView.numZones:
             sleepTime = MainView.zones[MainView.nextZone].timeOn()
+            sleepTime += self.tempValue
             print(f"Start Zone {MainView.nextZone} for {sleepTime} x 10")
-            # self.zones[self.nextZone].setOn()
             MainView.set_status(MainView.nextZone, True)
             MainView.nextZone += 1
 
@@ -372,12 +347,7 @@ class MainView(tk.Frame):
     # handle slider update
     def temp_slider_changed(self, value):
         self.temp_slider_value_label.config(text=f"Temp: {value} F")
-        v = int(value)
-
-        # update all zones
-        for i in range(MainView.numZones):
-            MainView.zones[i].setTimeOn(v)
-        # self.zones[2].setTimeOn(v+100)
+        self.tempValue = int(value)
 
     # Reset system
     def resetZones():
