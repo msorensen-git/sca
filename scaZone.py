@@ -33,8 +33,8 @@ class Zone:
     def setTimeOn(self, value):
         self._timeOn = value
 
-    def inrement(self, value):
-        return value+1
+    # def inrement(self, value):
+        # return value+1
 
-    def decrement(self, value):
-        return value+1
+    # def decrement(self, value):
+        # return value+1
