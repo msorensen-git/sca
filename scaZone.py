@@ -1,40 +1,26 @@
 
 class Zone:
+    """ One watering zone """
     def __init__(self):
         self.status = False
-        self._timeOn = 0
-        self.label = None
-        self.indicator = None
-        self.button = None
+        self._time_on = 0
 
-    def label(self):
-        return self.label
-
-    def indicator(self):
-        return self.indicator
-
-    def button(self):
-        return self.button
-
-    def setOn(self):
+    def set_on(self):
+        """ set this zone on """
         self.status = True
-        self.indicator.configure(bg="red")
 
-    def setOff(self):
+    def set_off(self):
+        """ set this zone off """
         self.status = False
-        self.indicator.configure(bg='Gray32')
 
-    def isOn(self):
+    def is_on(self):
+        """ is this zone on? """
         return self.status
 
-    def timeOn(self):
-        return self._timeOn     # seconds on for zone
+    def time_on(self):
+        """ how long will this zone be on? """
+        return self._time_on     # seconds on for zone
 
-    def setTimeOn(self, value):
-        self._timeOn = value
-
-    # def inrement(self, value):
-        # return value+1
-
-    # def decrement(self, value):
-        # return value+1
+    def set_time_on(self, value):
+        """ set how long this zone should be on """
+        self._time_on = value

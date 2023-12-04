@@ -1,5 +1,4 @@
 import tkinter as tk
-# import scaZone
 
 # simple view
 import scaGui  # as gui
