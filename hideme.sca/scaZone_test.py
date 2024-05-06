@@ -1,4 +1,4 @@
-import scaZone    # The code to test
+import src.scaZone as scaZone    # The code to test
 import unittest   # The test framework
 
 class Test_TestIncrementDecrement(unittest.TestCase):

@@ -1,10 +1,10 @@
 import tkinter as tk
 
 # simple view
-import scaGui as scaGui  # as gui
+import src.scaGui as scaGui  # as gui
 
 # tabbed view
-import scaGuiMain as scaGuiMain  # as gui
+import src.scaGuiMain as scaGuiMain  # as gui
 
 if __name__ == "__main__":
     # Create a tkinter window

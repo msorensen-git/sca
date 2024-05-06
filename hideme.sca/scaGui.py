@@ -1,8 +1,8 @@
 import tkinter as tk
 from time import strftime
 
-import scaLed as led
-import scaZone as zone
+import src.scaLed as led
+import src.scaZone as zone
 
 
 class SprinklerControlPanelApp:
