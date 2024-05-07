@@ -351,13 +351,13 @@ class MainView(tk.Frame):
     def update_time(self):
         """ cycle through all zones """
         print("examine timers")
-        MainView.all_zones_off(self)
+        MainView.all_zones_off()
 
         if MainView.nextZone >= 0 and MainView.nextZone < MainView.numZones:
             sleep_time = MainView.zones[MainView.nextZone].time_on()
             sleep_time += self.temp_value
             print(f"Start Zone {MainView.nextZone} for {sleep_time} x 10")
-            MainView.set_status(self, MainView.nextZone, True)
+            MainView.set_status(MainView.nextZone, True)
             MainView.nextZone += 1
 
             # Sleep for length of this zone
@@ -370,18 +370,18 @@ class MainView(tk.Frame):
         self.temp_value = int(value)
 
     # Reset system
-    def reset_zones(self):
+    def reset_zones():
         """ cycle is finished """
-        MainView.all_zones_off(self)
+        MainView.all_zones_off()
         MainView.nextZone = MainView.numZones
 
-    def all_zones_off(self):
+    def all_zones_off():
         """ set all zones to off """
         for i in range(MainView.numZones):
-            MainView.set_status(self, i, False)
+            MainView.set_status(i, False)
 
     # set one zone on or off
-    def set_status(self, zone, status):
+    def set_status(zone, status):
         """ Set zone status """
         if status:
             MainView.zones[zone].set_on()
@@ -394,29 +394,29 @@ class MainView(tk.Frame):
             MainView.zones[zone].indicator.configure(bg='Gray32')
 
     # toggle status of one zone
-    def toggle_status0(self):
+    def toggle_status0():
         """ Toggle zone 0 """
-        MainView.set_status(self, 0, not MainView.zones[0].is_on())
+        MainView.set_status(0, not MainView.zones[0].is_on())
 
-    def toggle_status1(self):
+    def toggle_status1():
         """ Toggle zone 1 """
-        MainView.set_status(self, 1, not MainView.zones[1].is_on())
+        MainView.set_status(1, not MainView.zones[1].is_on())
 
-    def toggle_status2(self):
+    def toggle_status2():
         """ Toggle zone 2 """
-        MainView.set_status(self, 2, not MainView.zones[2].is_on())
+        MainView.set_status(2, not MainView.zones[2].is_on())
 
-    def toggle_status3(self):
+    def toggle_status3():
         """ Toggle zone 3 """
-        MainView.set_status(self, 3, not MainView.zones[3].is_on())
+        MainView.set_status(3, not MainView.zones[3].is_on())
 
-    def toggle_status4(self):
+    def toggle_status4():
         """ Toggle zone 4"""
-        MainView.set_status(self, 4, not MainView.zones[4].is_on())
+        MainView.set_status(4, not MainView.zones[4].is_on())
 
-    def toggle_status5(self):
+    def toggle_status5():
         """ Toggle zone 5 """
-        MainView.set_status(self, 5, not MainView.zones[5].is_on())
+        MainView.set_status(5, not MainView.zones[5].is_on())
 
     def exit_save(self):
         """ Exit app after saving settings """
