@@ -7,21 +7,13 @@ from time import strftime
 import scaLed as led
 import scaZone as zone_data
 
-
-class Page(tk.Frame):
-    """ Generic GUI Page """
-    def __init__(self, *args, **kwargs):
-        tk.Frame.__init__(self, *args, **kwargs)
-
-    def show(self):
-        """ Show this page """
-        self.lift()
+import sca_page as Page
 
 
-class PageRun(Page):
+class PageRun(Page.Page):
     """ Run page for normal operation """
     def __init__(self, *args, **kwargs):
-        Page.__init__(self, *args, **kwargs)
+        Page.Page.__init__(self, *args, **kwargs)
 
         # pad = {'padx': 5, 'pady': 5}
         self.off_color = 'Gray32'
@@ -128,12 +120,12 @@ class PageRun(Page):
         _zone.set_time_on(1)
 
 
-class PageProgram(Page):
+class PageProgram(Page.Page):
     """ Programming GUI page """
 
     def __init__(self, *args, **kwargs):
         """ Initialize Programming page """
-        Page.__init__(self, *args, **kwargs)
+        Page.Page.__init__(self, *args, **kwargs)
 
         pad = {'padx': 5, 'pady': 5}
 
@@ -247,20 +239,22 @@ class PageProgram(Page):
         MainView.zones[5].set_time_on(int(lval))
 
 
-class PageTest(Page):
+class PageTest(Page.Page):
     """ Test page """
     def __init__(self, *args, **kwargs):
         """ Initialize Test page """
-        Page.__init__(self, *args, **kwargs)
+        Page.Page.__init__(self, *args, **kwargs)
+
         label = tk.Label(self, text="Test Page")
         label.pack(side="top", fill="both", expand=True)
 
 
-class PageSettings(Page):
+class PageSettings(Page.Page):
     """ Settings page """
     def __init__(self, *args, **kwargs):
         """ Initialize PageSettings """
-        Page.__init__(self, *args, **kwargs)
+        Page.Page.__init__(self, *args, **kwargs)
+        
         label = tk.Label(self, text="Settings Page")
         label.pack(side="top", fill="both", expand=True)
 
